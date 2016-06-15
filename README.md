@@ -21,7 +21,7 @@ On brute-forcing with charsets:
 * Maximum length of password to try
 
 ## Installation
-Type 'cmake', then 'make' (or 'gmake' if you have BSD-make as default) to build the program. You will need to have
+Type 'cmake .', then 'make' (or 'gmake' if you have BSD-make as default) to build the program. You will need to have
 GNU Make and a recent version of GCC installed but there are no external dependencies on libraries.
 
 ## Tricks
