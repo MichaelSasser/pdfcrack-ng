@@ -1,6 +1,7 @@
 #pdfcrack-ng
 
 [![Build Status](https://travis-ci.org/MichaelSasser/pdfcrack-ng.svg?branch=master)](https://travis-ci.org/MichaelSasser/pdfcrack-ng)
+[![Code Climate](https://codeclimate.com/github/MichaelSasser/pdfcrack-ng/badges/gpa.svg)](https://codeclimate.com/github/MichaelSasser/pdfcrack-ng)
 
 ## Introduction
 pdfcrack-ng (pdfcrack next generation) is a simple tool written in "C" to recover forgotten passwords from PDFs.
@@ -47,7 +48,7 @@ warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Gen
 You should have received a copy of the GNU General Public License along with this program. If not,
 see <http://www.gnu.org/licenses/>.
 
-Code and documentation are originally written by Henning Norén and extended by Andreas Meier and Michael Kuhn
+Code and documentation are originally written by Henning Norén and extended by Andreas Meier and Michael Kuhn.
 Henning Norén used parts in pdfcrack.c and md5.c by derived/copied/inspired from xpdf and poppler. xpdfand poppler are
 copyright 1995-2006 Glyph & Cog, LLC. The PDF data structures, operators, and specification are copyright
 1985-2006 Adobe Systems Inc.
