@@ -1,5 +1,7 @@
 #pdfcrack-ng
 
+[![Build Status](https://travis-ci.org/MichaelSasser/pdfcrack-ng.svg?branch=master)](https://travis-ci.org/MichaelSasser/pdfcrack-ng)
+
 ## Introduction
 pdfcrack-ng (pdfcrack next generation) is a simple tool written in "C" to recover forgotten passwords from PDFs.
 It should be able to handle all PDFs that uses the standard security handler but the PDF-parsing routines are a bit of a
