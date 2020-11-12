@@ -18,5 +18,5 @@
  */
 #pragma once
 
-void runBenchmark(int nrOfThreads, const unsigned int numCpuCoresLoc);
+void runBenchmark(int nrOfThreads, unsigned int numCpuCoresLoc);
 

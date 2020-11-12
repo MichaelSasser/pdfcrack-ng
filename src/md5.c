@@ -38,8 +38,10 @@
 #define DD 0x10325476
 
 static void (*md5_50_variant)(uint8_t *string, const unsigned int i);
-static void md5_50f(uint8_t *msg, const unsigned int msgLen);
-static void md5_50s(uint8_t *msg, const unsigned int msgLen);
+
+static void md5_50f(uint8_t *msg, unsigned int msgLen);
+
+static void md5_50s(uint8_t *msg, unsigned int msgLen);
 
 void md5(const uint8_t *msg, const unsigned int msgLen, uint8_t *digest) {
     uint32_t x[16], aa, bb, cc, dd;;
@@ -63,7 +65,8 @@ void md5(const uint8_t *msg, const unsigned int msgLen, uint8_t *digest) {
 
         /** grab a 64-byte block */
         for (j = 0; j < 16 && k < msgLen - 3; ++j, k += 4)
-            x[j] = ((((((unsigned) msg[k + 3] << 8) + (unsigned) msg[k + 2]) << 8) + (unsigned) msg[k + 1]) << 8) + msg[k];
+            x[j] = ((((((unsigned) msg[k + 3] << 8) + (unsigned) msg[k + 2]) << 8) + (unsigned) msg[k + 1]) << 8) +
+                   msg[k];
         if (i == n64 - 1) {
             if (k == msgLen - 3)
                 x[j] = 0x80000000 + ((((unsigned) msg[k + 2] << 8) + (unsigned) msg[k + 1]) << 8) + msg[k];
@@ -167,20 +170,20 @@ void md5(const uint8_t *msg, const unsigned int msgLen, uint8_t *digest) {
     /** break digest into bytes */
     digest[0] = (uint8_t) (a & 0xff);
     digest[1] = (uint8_t) ((a >>= 8) & 0xff);
-    digest[ 2] = (uint8_t)((a >>= 8) & 0xff);
-    digest[ 3] = (uint8_t)((a >>= 8) & 0xff);
+    digest[2] = (uint8_t) ((a >>= 8) & 0xff);
+    digest[3] = (uint8_t) ((a >>= 8) & 0xff);
     digest[4] = (uint8_t) (b & 0xff);
     digest[5] = (uint8_t) ((b >>= 8) & 0xff);
-    digest[ 6] = (uint8_t)((b >>= 8) & 0xff);
-    digest[ 7] = (uint8_t)((b >>= 8) & 0xff);
+    digest[6] = (uint8_t) ((b >>= 8) & 0xff);
+    digest[7] = (uint8_t) ((b >>= 8) & 0xff);
     digest[8] = (uint8_t) (c & 0xff);
     digest[9] = (uint8_t) ((c >>= 8) & 0xff);
-    digest[10] = (uint8_t)((c >>= 8) & 0xff);
-    digest[11] = (uint8_t)((c >>= 8) & 0xff);
+    digest[10] = (uint8_t) ((c >>= 8) & 0xff);
+    digest[11] = (uint8_t) ((c >>= 8) & 0xff);
     digest[12] = (uint8_t) (d & 0xff);
     digest[13] = (uint8_t) ((d >>= 8) & 0xff);
-    digest[14] = (uint8_t)((d >>= 8) & 0xff);
-    digest[15] = (uint8_t)((d >>= 8) & 0xff);
+    digest[14] = (uint8_t) ((d >>= 8) & 0xff);
+    digest[15] = (uint8_t) ((d >>= 8) & 0xff);
 }
 
 static void md5_50s(uint8_t *msg, const unsigned int msgLen) {
@@ -290,20 +293,20 @@ static void md5_50f(uint8_t *msg, const unsigned int msgLen __attribute__((unuse
     /** break digest into bytes */
     msg[0] = (uint8_t) (a & 0xff);
     msg[1] = (uint8_t) ((a >>= 8) & 0xff);
-    msg[ 2] = (uint8_t)((a >>= 8) & 0xff);
-    msg[ 3] = (uint8_t)((a >>= 8) & 0xff);
+    msg[2] = (uint8_t) ((a >>= 8) & 0xff);
+    msg[3] = (uint8_t) ((a >>= 8) & 0xff);
     msg[4] = (uint8_t) (b & 0xff);
     msg[5] = (uint8_t) ((b >>= 8) & 0xff);
-    msg[ 6] = (uint8_t)((b >>= 8) & 0xff);
-    msg[ 7] = (uint8_t)((b >>= 8) & 0xff);
+    msg[6] = (uint8_t) ((b >>= 8) & 0xff);
+    msg[7] = (uint8_t) ((b >>= 8) & 0xff);
     msg[8] = (uint8_t) (c & 0xff);
     msg[9] = (uint8_t) ((c >>= 8) & 0xff);
-    msg[10] = (uint8_t)((c >>= 8) & 0xff);
-    msg[11] = (uint8_t)((c >>= 8) & 0xff);
+    msg[10] = (uint8_t) ((c >>= 8) & 0xff);
+    msg[11] = (uint8_t) ((c >>= 8) & 0xff);
     msg[12] = (uint8_t) (d & 0xff);
     msg[13] = (uint8_t) ((d >>= 8) & 0xff);
-    msg[14] = (uint8_t)((d >>= 8) & 0xff);
-    msg[15] = (uint8_t)((d >>= 8) & 0xff);
+    msg[14] = (uint8_t) ((d >>= 8) & 0xff);
+    msg[15] = (uint8_t) ((d >>= 8) & 0xff);
 }
 
 void md5_50_init(const unsigned int msgLen) {

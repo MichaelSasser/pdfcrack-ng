@@ -21,6 +21,6 @@
 
 #include <stdint.h>
 
-void sha256(const uint8_t *msg, const int msgLen, uint8_t *hash);
+void sha256(const uint8_t *msg, int msgLen, uint8_t *hash);
 
-void sha256f(const uint8_t *msg, const int msgLen, uint8_t *hash);
+void *sha256f(const uint8_t *msg, int msgLen, uint8_t *hash);

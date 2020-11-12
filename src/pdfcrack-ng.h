@@ -21,12 +21,12 @@
 #include <stdio.h>
 #include "common.h"
 
-bool initPDFCrack(const EncData *e, const uint8_t *upw, const bool user,
-                  const char *wl, const passwordMethod pm, FILE *file,
-                  const char *cs, const unsigned int minPw,
-                  const unsigned int maxPw, const bool perm,
-                  const int nrOfThreadsLoc, const unsigned int numCpuCores, const int zone_local,
-                  const int nrOfZones_local);
+bool initPDFCrack(const EncData *e, const uint8_t *upw, bool user,
+                  const char *wl, passwordMethod pm, FILE *file,
+                  const char *cs, unsigned int minPw,
+                  unsigned int maxPw, bool perm,
+                  int nrOfThreadsLoc, unsigned int numCpuCores, int zone_local,
+                  int nrOfZones_local);
 
 bool loadState(FILE *file, EncData *e, char **wl, bool *user);
 

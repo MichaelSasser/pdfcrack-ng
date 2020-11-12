@@ -22,9 +22,9 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
+#include <pthread.h>
 #include <sys/time.h>
 #include <unistd.h>
-#include "benchmark.h"
 #include "common.h"
 #include "md5.h"
 #include "rc4.h"
@@ -71,7 +71,7 @@ static void print_and_clean_wall_time(const char *str, unsigned int nrprocessed,
     finished = false;
 }
 
-static void sha256_bench(int numThreads, const unsigned int numCpuCores) {
+static void sha256_bench() {
     uint8_t *buf;
     uint8_t hash[32];
     unsigned int nrprocessed = 0;
@@ -103,7 +103,7 @@ static void sha256_bench(int numThreads, const unsigned int numCpuCores) {
     free(buf);
 }
 
-static void md5_bench(int numThreads, const unsigned int numCpuCores) {
+static void md5_bench() {
     uint8_t *buf;
     uint8_t digest[16];
     unsigned int nrprocessed = 0;
@@ -123,7 +123,7 @@ static void md5_bench(int numThreads, const unsigned int numCpuCores) {
     free(buf);
 }
 
-static void md5_50_bench(int numThreads, const unsigned int numCpuCores) {
+static void md5_50_bench() {
     uint8_t *buf;
     unsigned int nrprocessed = 0;
     clock_t startTime, endTime;
@@ -156,7 +156,7 @@ static void md5_50_bench(int numThreads, const unsigned int numCpuCores) {
     free(buf);
 }
 
-static void rc4_bench(int numThreads, const unsigned int numCpuCores) {
+static void rc4_bench() {
     uint8_t *enckey;
     uint8_t match[32] = {0xDE, 0xAD, 0xBE, 0xAD,
                          0xDE, 0xAD, 0xBE, 0xAD,
@@ -271,7 +271,7 @@ static void pdf_128b_bench(int numThreads, const unsigned int numCpuCores) {
         gettimeofday(&wallTimeStart, NULL);
         runCrackMultiThreads();
         gettimeofday(&wallTimeEnd, NULL);
-        char buf[32];
+        char buf[37];
         sprintf(buf, "PDF (128, user, %i threads):", numThreads);
         print_and_clean_wall_time(buf, getNrProcessed(), wallTimeStart, wallTimeEnd);
     }
@@ -330,17 +330,15 @@ void runBenchmark(int numThreads, const unsigned int numCpuCores) {
     sigaction(SIGALRM, &act, 0);
 
     printf("Benchmark:\tAverage Speed (calls / second):\n");
-    sha256_bench(numThreads, numCpuCores);
+    sha256_bench();
     printf("\n");
-    md5_bench(numThreads, numCpuCores);
-    md5_50_bench(numThreads, numCpuCores);
+    md5_bench();
+    md5_50_bench();
     printf("\n");
-    rc4_bench(numThreads, numCpuCores);
+    rc4_bench();
     printf("\n");
     printf("Benchmark:\tAverage Speed (passwords / second):\n");
     pdf_40b_bench(numThreads, numCpuCores);
     printf("\n");
     pdf_128b_bench(numThreads, numCpuCores);
-
-    return;
 }

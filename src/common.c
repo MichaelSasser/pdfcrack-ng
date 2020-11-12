@@ -46,7 +46,8 @@ void printEncData(EncData *e) {
         printf("Security Handler:\t%s\n", e->s_handler);
 
     printf("Document Version:\t%d\nDocument Revision:\t%d\nDocument Permissions:\t%d\nEncryption Strength:\t%d Bit\n"
-           "Encrypted Metadata:\t%s\nFileID:\t\t\t", e->version, e->revision, e->permissions, e->length, e->encryptMetaData ? "True" : "False");
+           "Encrypted Metadata:\t%s\nFileID:\t\t\t", e->version, e->revision, e->permissions, e->length,
+           e->encryptMetaData ? "True" : "False");
     for (i = 0; i < e->fileIDLen; i++) {
         ch = e->fileID[i];
         if (ch < 16)

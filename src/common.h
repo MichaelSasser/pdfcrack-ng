@@ -56,4 +56,4 @@ typedef enum passwordMethod {
 
 void freeEncData(EncData *e);
 
-void  printEncData(EncData *e);
+void printEncData(EncData *e);

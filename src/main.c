@@ -27,7 +27,7 @@
 #include "pdfcrack-ng.h"
 #include "benchmark.h"
 
-#define PRINTERVAL 1 /** Print Progress Interval (seconds) */
+#define PRINTERVAL 1 //Print Progress Interval (seconds)
 #define SAVEINTERVAL 30 // in seconds (should be a multiple of PRINTINVERVAL)
 #define CRASHFILE "savedstatecrash.sav"
 #define SAVEFILE "savedstateperiodic.sav"
@@ -143,7 +143,7 @@ int main(int argc, char **argv) {
     struct sigaction act1, act2;
     FILE *file = NULL, *wordlist = NULL;
     bool recovery = false, quiet = false,
-    work_with_user = true, permutation = false;
+            work_with_user = true, permutation = false;
     uint8_t *userpassword = NULL;
     char *charset = NULL, *inputfile = NULL, *wordlistfile = NULL;
     EncData *e;
@@ -335,8 +335,7 @@ int main(int argc, char **argv) {
         }
         if (!quiet)
             printf(" [+] Loaded state from %s\n", inputfile);
-    }
-    else { /** !recovery */
+    } else { /** !recovery */
         if (!openPDF(file, e)) {
             fprintf(stderr, "Error: Not a valid PDF\n");
             ret = 3;
@@ -351,8 +350,7 @@ int main(int argc, char **argv) {
                 ret = 4;
                 goto out1;
             }
-        }
-        else if (e->revision < 2 || (strcmp(e->s_handler, "Standard") != 0 || e->revision > 5)) {
+        } else if (e->revision < 2 || (strcmp(e->s_handler, "Standard") != 0 || e->revision > 5)) {
             fprintf(stderr, "The specific version is not supported (%s - %d)\n", e->s_handler, e->revision);
             ret = 5;
             goto out1;
@@ -400,7 +398,8 @@ int main(int argc, char **argv) {
     /** Try to initialize the cracking-engine */
     if (!initPDFCrack(e, userpassword, work_with_user, wordlistfile,
                       wordlistfile ? Wordlist : Generative, wordlist, charset,
-                      (unsigned int) minpw, (unsigned int) maxpw, permutation, nrofthreads, numCpuCores, zone, nrOfZones)) {
+                      (unsigned int) minpw, (unsigned int) maxpw, permutation, nrofthreads, numCpuCores, zone,
+                      nrOfZones)) {
         cleanPDFCrack();
         fprintf(stderr, "Wrong userpassword, '%s'\n", userpassword);
         ret = 7;

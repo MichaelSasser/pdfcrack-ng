@@ -23,8 +23,8 @@
 #include "common.h"
 
 
-void initPasswords(const passwordMethod pm, FILE *file, const char *wl, const char *cs, const unsigned int minPw,
-                   const unsigned int maxPw, const int zone, const int nrOfZones);
+void initPasswords(passwordMethod pm, FILE *file, const char *wl, const char *cs, unsigned int minPw,
+                   unsigned int maxPw, int zone, int nrOfZones);
 
 bool nextPassword(void);
 
