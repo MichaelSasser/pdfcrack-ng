@@ -18,7 +18,9 @@
  */
 
 #include <stdio.h>
+#define __USE_GNU
 #include <signal.h>
+#undef __USE_GNU
 #include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
@@ -31,14 +33,14 @@
 #include "sha256.h"
 #include "pdfcrack-ng.h"
 
+typedef  sig_t __sighandler_t;        /* BSD compatibility. */
+typedef  sighandler_t __sighandler_t; /* glibc compatibility. */
+
 #define COMMON_MD5_SIZE 88
 #define COMMON_SHA256_SIZE 40
 #define COMMON_SHA256_SLOW_SIZE 56
 
 #define BENCHINTERVAL 3 /** The interval to run the specific benchmarks */
-
-typedef __sighandler_t sig_t;        /* BSD compatibility. */
-typedef __sighandler_t sighandler_t; /* glibc compatibility. */
 
 static volatile bool finished = false;
 

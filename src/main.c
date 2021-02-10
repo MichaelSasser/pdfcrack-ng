@@ -19,7 +19,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#define __USE_GNU
 #include <signal.h>
+#undef __USE_GNU
 #include <getopt.h>
 #include <string.h>
 #include <unistd.h>
@@ -34,8 +36,8 @@
 #define SAVEFILE "savedstateperiodic.sav"
 
 
-typedef __sighandler_t sig_t;        /* BSD compatibility. */
-typedef __sighandler_t sighandler_t; /* glibc compatibility. */
+typedef  sig_t __sighandler_t;        /* BSD compatibility. */
+typedef  sighandler_t __sighandler_t; /* glibc compatibility. */
 
 char crashStateFileName[64];
 char periodicStateFileName[64];
