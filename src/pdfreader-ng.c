@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016 Michael Sasser
+ * Copyright (C) 2016-2021 Michael Sasser
  * Copyright (C) 2006-2014 Henning Norén
  * 
  * This program is free software: you can redistribute it and/or modify

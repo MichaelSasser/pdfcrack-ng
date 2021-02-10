@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016 Michael Sasser
+ * Copyright (C) 2016-2021 Michael Sasser
  * Copyright (C) 2006-2015 Henning Norén
  * Copyright (C) 2009 Andreas Meier, Michael Kuhn
  *
