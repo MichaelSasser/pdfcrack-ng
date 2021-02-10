@@ -97,7 +97,7 @@ unsigned int lastOutputLength;
 
 char *processRotationSymbol(void) {
     static int sVar = 0;
-    switch(sVar) {
+    switch (sVar) {
         case 0:
             sVar = 1;
             return "-";
@@ -129,7 +129,8 @@ bool printProgress(void) {
     str[currPWLen] = '\0';
     printf("%*s", lastOutputLength, "\r");
     //printf("\r" * lastOutputLength);
-    asprintf(&currentOutput, " [%c] Threads: %i/%d. Avg.: %0.f w/s. Current: \"%s\"", processRotationSymbol()[0], nrOfThreads, numCpuCorez, nrprocessed / difftime(currentTime, startTime), str);
+    asprintf(&currentOutput, " [%c] Threads: %i/%d. Avg.: %0.f w/s. Current: \"%s\"", processRotationSymbol()[0],
+             nrOfThreads, numCpuCorez, nrprocessed / difftime(currentTime, startTime), str);
     lastOutputLength = sizeof(currentOutput);
     printf(currentOutput);
     free(currentOutput);
@@ -222,8 +223,7 @@ static bool do_permutate(uint8_t localCurrPW[32]) {
     if (tmp != localCurrPW[0]) {
         localCurrPW[0] = tmp;
         return true;
-    }
-    else
+    } else
         return false;
 
     //return ret;
@@ -246,7 +246,7 @@ static void foundPassword(void) {
 
     memcpy(str, currPW, currPWLen);
     str[currPWLen] = '\0';
-    printf("found %s-password: '%s'\n", workWithUser ? "user" : "owner", str);
+    printf("Found %s-password: '%s'\n", workWithUser ? "user" : "owner", str);
 
     /**
      * Print out the user-password too if we know the ownerpassword.
@@ -265,7 +265,7 @@ static void foundPassword(void) {
         memcpy(str, password_user, pad_start);
         if (!fin_search)
             str[pad_start - 1] = '\0';
-        printf("found user-password: '%s'\n", str);
+        printf("Found user-password: '%s'\n", str);
     }
 }
 
@@ -541,7 +541,7 @@ void crackRev2Thread(void *vThreadId) {
             if (rc4Match40b(enckey, localUString, pad)) {
                 // Access to the parameter endOfSearch, currPW, currPWLen and encKeyWorkSpace has to be protected
                 if (pthread_mutex_lock(&lock) != 0) printf("Mutex 2: lock failed\n");
-                printf("Thread %i found password: '%s'\n", threadId, localCurrPW);
+                printf("\nThread %i found password: '%s'\n", threadId, localCurrPW);
                 endOfSearch = true;
                 pwFound = true;
                 // Key found. Copy results to global parameters (from the thread's local copy)
@@ -576,8 +576,6 @@ void crackRev2Thread(void *vThreadId) {
         if (ack != 0) printf("Mutex 3: unlock failed. code: %i\n", ack);
 
     }
-
-    return;
 }
 
 void crackRev5Thread(void *vThreadId) {
@@ -622,7 +620,7 @@ void crackRev5Thread(void *vThreadId) {
             if (memcmp(enckey, encdata->u_string, 32) == 0) {
                 // Access to the parameter endOfSearch, currPW, currPWLen and encKeyWorkSpace has to be protected
                 if (pthread_mutex_lock(&lock) != 0) printf("Mutex 2: lock failed\n");
-                printf("Thread %i found password: '%s'\n", threadId, localCurrPW);
+                printf("\nThread %i found password: '%s'\n", threadId, localCurrPW);
                 endOfSearch = true;
                 pwFound = true;
                 // Key found. Copy results to global parameters (from the thread's local copy)
@@ -660,7 +658,6 @@ void crackRev5Thread(void *vThreadId) {
         //if ((ack = pthread_mutex_unlock(&lock)) != 0) printf("Mutex 3: unlock failed! code: %i\n");
 
     }
-    return;
 }
 
 void crackRev3Thread(void *vThreadId) {
@@ -715,7 +712,7 @@ void crackRev3Thread(void *vThreadId) {
                 if (memcmp(test, rev3TestKey, length) == 0) {
                     // Access to the parameter endOfSearch, currPW, currPWLen and encKeyWorkSpace has to be protected
                     if (pthread_mutex_lock(&lock) != 0) printf("Mutex 2: lock failed\n");
-                    printf("Thread %i found password: '%s'\n", threadId, localCurrPW);
+                    printf("\nThread %i found password: '%s'\n", threadId, localCurrPW);
                     endOfSearch = true;
                     pwFound = true;
                     // Key found. Copy results to global parameters (from the thread's local copy)
@@ -753,8 +750,6 @@ void crackRev3Thread(void *vThreadId) {
         if (ack != 0) printf("Mutex 3: unlock failed. code: %i\n", ack);
         //if ((ack = pthread_mutex_unlock(&lock)) != 0) printf("Mutex 3: unlock failed! code: %i\n");
     }
-
-    return;
 }
 
 bool runCrackMultiThreads() {
@@ -785,11 +780,9 @@ bool runCrackMultiThreads() {
         threadId[i] = i;
         if (encdata->revision == 5) {
             pthread_create(&pThread[i], NULL, (void *) &crackRev5Thread, (void *) &threadId[i]);
-        }
-        else if (encdata->revision == 2) { // 40 bit rc4
+        } else if (encdata->revision == 2) { // 40 bit rc4
             pthread_create(&pThread[i], NULL, (void *) &crackRev2Thread, (void *) &threadId[i]);
-        }
-        else { // rev3+ (40-128bit aes or rc4)
+        } else { // rev3+ (40-128bit aes or rc4)
             pthread_create(&pThread[i], NULL, (void *) &crackRev3Thread, (void *) &threadId[i]);
         }
     }
@@ -797,7 +790,7 @@ bool runCrackMultiThreads() {
     // wait for threads to be finished
     for (i = 0; i < nrOfThreads; i++) {
         pthread_join(pThread[i], NULL);
-        printf("joined thread %i\n", i);
+        printf("Joined thread %i\n", i);
     }
 
     crackDone = true;
@@ -872,34 +865,29 @@ void runCrack(void) {
     //uint8_t cpw[88];
     if (nrOfThreads >= 2) {
         found = runCrackMultiThreads();
-    }
-    else {
+    } else {
         if (encdata->revision == 5) {
             if (workWithUser) {
                 memcpy(currPW, encdata->u_string + 32, 8);
                 found = runCrackRev5();
-            }
-            else {
+            } else {
                 memcpy(currPW, encdata->o_string + 32, 8);
                 memcpy(currPW + 8, encdata->u_string, 48);
                 found = runCrackRev5_o();
             }
-        }
-        else if (!workWithUser && !knownPassword) {
+        } else if (!workWithUser && !knownPassword) {
             memcpy(currPW, pad, 32);
             //currPW = cpw;
             if (encdata->revision == 2)
                 found = runCrackRev2_o();
             else
                 found = runCrackRev3_o();
-        }
-        else if (encdata->revision == 2) {
+        } else if (encdata->revision == 2) {
             if (workWithUser)
                 found = runCrackRev2();
             else /** knownPassword */
                 found = runCrackRev2_of();
-        }
-        else {
+        } else {
             if (workWithUser)
                 found = runCrackRev3();
             else /** knownPassword */
@@ -946,7 +934,8 @@ void cleanPDFCrack(void) {
     after the first time. */
 bool initPDFCrack(const EncData *e, const uint8_t *upw, const bool user, const char *wl, const passwordMethod pm,
                   FILE *file, const char *cs, const unsigned int minPw, const unsigned int maxPw, const bool perm,
-                  const int nrOfThreadsLoc, const unsigned int numCpuCores, const int zone_local, const int nrOfZones_local) {
+                  const int nrOfThreadsLoc, const unsigned int numCpuCores, const int zone_local,
+                  const int nrOfZones_local) {
     uint8_t buf[128];
     unsigned int upwlen;
     uint8_t *tmp;
@@ -1000,13 +989,11 @@ bool initPDFCrack(const EncData *e, const uint8_t *upw, const bool user, const c
             if (!isUserPasswordRev2())
                 return false;
             memcpy(encKeyWorkSpace, pad, 32);
-        }
-        else {
+        } else {
             memcpy(password_user, pad, 32);
             knownPassword = isUserPasswordRev2();
         }
-    }
-    else if (e->revision >= 3) {
+    } else if (e->revision >= 3) {
         memcpy(buf, pad, 32);
         memcpy(buf + 32, e->fileID, e->fileIDLen);
         tmp = malloc(sizeof(uint8_t) * 16);
@@ -1016,8 +1003,7 @@ bool initPDFCrack(const EncData *e, const uint8_t *upw, const bool user, const c
             if (!isUserPasswordRev3())
                 return false;
             memcpy(encKeyWorkSpace, pad, 32);
-        }
-        else {
+        } else {
             memcpy(password_user, pad, 32);
             knownPassword = isUserPasswordRev3();
         }

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016 Michael Sasser
+ * Copyright (C) 2016-2021 Michael Sasser
  * Copyright (C) 2006-2015 Henning Norén
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,21 +19,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#define __USE_GNU
 #include <signal.h>
+#undef __USE_GNU
 #include <getopt.h>
 #include <string.h>
 #include <unistd.h>
 #include "pdfparser.h"
 #include "pdfcrack-ng.h"
 #include "benchmark.h"
+#include "version.h"
 
-#define PRINTERVAL 1 /** Print Progress Interval (seconds) */
+#define PRINTERVAL 1 //Print Progress Interval (seconds)
 #define SAVEINTERVAL 30 // in seconds (should be a multiple of PRINTINVERVAL)
 #define CRASHFILE "savedstatecrash.sav"
 #define SAVEFILE "savedstateperiodic.sav"
 
-#define VERSION_MAJOR 0
-#define VERSION_MINOR 1
 
 char crashStateFileName[64];
 char periodicStateFileName[64];
@@ -143,14 +144,14 @@ int main(int argc, char **argv) {
     struct sigaction act1, act2;
     FILE *file = NULL, *wordlist = NULL;
     bool recovery = false, quiet = false,
-    work_with_user = true, permutation = false;
+            work_with_user = true, permutation = false;
     uint8_t *userpassword = NULL;
     char *charset = NULL, *inputfile = NULL, *wordlistfile = NULL;
     EncData *e;
     const unsigned int numCpuCores = (unsigned int) sysconf(_SC_NPROCESSORS_ONLN);
     unsigned int nrofthreads = numCpuCores / 2;
 
-    printf("pdfcrack-ng v%d.%d - The Next Generation PDF Password Cracker\n\n", VERSION_MAJOR, VERSION_MINOR);
+    printf("pdfcrack-ng %s - %s\n\n", VERSION, DESCRIPTION);
 
     /** Parse arguments */
     while (true) {
@@ -253,7 +254,7 @@ int main(int argc, char **argv) {
                 break;
 
             case 'v':
-                printf("pdfcrack-ng version %d.%d\n", VERSION_MAJOR, VERSION_MINOR);
+                printf("pdfcrack-ng %s\n", VERSION);
                 return 0;
 
             case 'z':
@@ -335,8 +336,7 @@ int main(int argc, char **argv) {
         }
         if (!quiet)
             printf(" [+] Loaded state from %s\n", inputfile);
-    }
-    else { /** !recovery */
+    } else { /** !recovery */
         if (!openPDF(file, e)) {
             fprintf(stderr, "Error: Not a valid PDF\n");
             ret = 3;
@@ -351,8 +351,7 @@ int main(int argc, char **argv) {
                 ret = 4;
                 goto out1;
             }
-        }
-        else if (e->revision < 2 || (strcmp(e->s_handler, "Standard") != 0 || e->revision > 5)) {
+        } else if (e->revision < 2 || (strcmp(e->s_handler, "Standard") != 0 || e->revision > 5)) {
             fprintf(stderr, "The specific version is not supported (%s - %d)\n", e->s_handler, e->revision);
             ret = 5;
             goto out1;
@@ -390,7 +389,11 @@ int main(int argc, char **argv) {
 
     if (!quiet) {
         printEncData(e);
-        act1.sa_handler = (__sighandler_t) alarmInterrupt;
+#ifdef __APPLE__
+	act1.sa_handler = (sig_t) alarmInterrupt;
+#else
+        act1.sa_handler = (sighandler_t) alarmInterrupt;
+#endif
         sigemptyset(&act1.sa_mask);
         act1.sa_flags = 0;
         sigaction(SIGALRM, &act1, 0);
@@ -400,7 +403,8 @@ int main(int argc, char **argv) {
     /** Try to initialize the cracking-engine */
     if (!initPDFCrack(e, userpassword, work_with_user, wordlistfile,
                       wordlistfile ? Wordlist : Generative, wordlist, charset,
-                      (unsigned int) minpw, (unsigned int) maxpw, permutation, nrofthreads, numCpuCores, zone, nrOfZones)) {
+                      (unsigned int) minpw, (unsigned int) maxpw, permutation, nrofthreads, numCpuCores, zone,
+                      nrOfZones)) {
         cleanPDFCrack();
         fprintf(stderr, "Wrong userpassword, '%s'\n", userpassword);
         ret = 7;

@@ -17,9 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#include "pdfparser.h"
 #include <stdlib.h>
 #include <string.h>
+#include "pdfparser.h"
 
 #define BUFFSIZE 256
 
@@ -71,8 +71,7 @@ static int parseIntWithC(FILE *file, const int c) {
     if (ch == '-') {
         neg = true;
         ch = getc(file);
-    }
-    else if (ch == '+')
+    } else if (ch == '+')
         ch = getc(file);
     while (ch >= '0' && ch <= '9') {
         i *= 10;
@@ -223,7 +222,8 @@ static p_str *objStringToByte(const uint8_t *str, const unsigned int len) {
                 default:
                     if (str[i] >= '0' && str[i] < '8') {
                         d = 0;
-                        for (j = 0; i < len && j < 3 && str[i] >= '0' && str[i] < '8' && (d * 8) + (str[i] - '0') < 256; j++, i++) {
+                        for (j = 0; i < len && j < 3 && str[i] >= '0' && str[i] < '8' &&
+                                    (d * 8) + (str[i] - '0') < 256; j++, i++) {
                             d *= 8;
                             d += (str[i] - '0');
                         }
@@ -271,16 +271,14 @@ static p_str *parseRegularString(FILE *file) {
                     p--;
                 if (ch == '\\')
                     skip = true;
-            }
-            else
+            } else
                 skip = false;
             ch = getc(file);
         }
         ungetc(ch, file);
         if (len > 0)
             ret = objStringToByte(buf, len);
-    }
-    else if (ch == '<') {
+    } else if (ch == '<') {
         len = 0;
         while (ch != '>' && len < BUFFSIZE && ch != EOF) {
             if ((ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'f') || (ch >= 'A' && ch <= 'F'))
@@ -339,8 +337,7 @@ static int findTrailerDict(FILE *file, EncData *e) {
                         e_pos = parseIntWithC(file, parseWhiteSpace(file));
                         if (e_pos >= 0)
                             encrypt = true;
-                    }
-                    else if (ch == 'I' && getc(file) == 'D') {
+                    } else if (ch == 'I' && getc(file) == 'D') {
                         ch = parseWhiteSpace(file);
                         while (ch != '[' && ch != EOF)
                             ch = getc(file);
@@ -359,8 +356,7 @@ static int findTrailerDict(FILE *file, EncData *e) {
                             id = false;
 
                         ch = getc(file);
-                    }
-                    else
+                    } else
                         ch = getc(file);
                     if (encrypt && id) {
                         /**printf("found all, returning: epos: %d\n",e_pos);*/
@@ -370,11 +366,9 @@ static int findTrailerDict(FILE *file, EncData *e) {
                         return e_pos;
                     }
                 }
-            }
-            else
+            } else
                 ch = getc(file);
-        }
-        else
+        } else
             ch = getc(file);
     }
     /**  printf("finished searching\n");*/
@@ -394,8 +388,7 @@ static int findTrailerDict(FILE *file, EncData *e) {
         a error that the document is not encrypted.
         **/
         return e_pos;
-    }
-    else
+    } else
         return ETRANF;
 }
 
@@ -442,8 +435,7 @@ static int findTrailer(FILE *file, EncData *e) {
                                 */
                                 encrypt = true;
                             }
-                        }
-                        else if (!id && ch == 'I' && getc(file) == 'D') {
+                        } else if (!id && ch == 'I' && getc(file) == 'D') {
                             ch = parseWhiteSpace(file);
                             while (ch != '[' && ch != EOF)
                                 ch = getc(file);
@@ -462,8 +454,7 @@ static int findTrailer(FILE *file, EncData *e) {
                             if (str)
                                 id = true;
                             ch = getc(file);
-                        }
-                        else
+                        } else
                             ch = getc(file);
                         if (encrypt && id) {
                             /**printf("found all, returning: epos: %d\n",e_pos);*/
@@ -474,11 +465,9 @@ static int findTrailer(FILE *file, EncData *e) {
                         }
                     }
                 }
-            }
-            else
+            } else
                 ch = getc(file);
-        }
-        else
+        } else
             ch = getc(file);
     }
     /**  printf("finished searching\n");*/
@@ -498,8 +487,7 @@ static int findTrailer(FILE *file, EncData *e) {
         a error that the document is not encrypted.
         **/
         return e_pos;
-    }
-    else
+    } else
         return ETRANF;
 }
 
@@ -526,8 +514,7 @@ static bool parseEncrypObject(FILE *file, EncData *e) {
                 if (dict <= 0)
                     break;
             }
-        }
-        else if (ch == '<') {
+        } else if (ch == '<') {
             ch = getc(file);
             if (ch == '<')
                 dict++;
@@ -573,8 +560,8 @@ static bool parseEncrypObject(FILE *file, EncData *e) {
                             e->s_handler = s_handler;
                             ff = true;
                         }
-                        break;
                     }
+                    break;
 
                 case 'L':
                     if (isWord(file, "ength")) {
@@ -601,8 +588,7 @@ static bool parseEncrypObject(FILE *file, EncData *e) {
                             free(str);
                         }
                         break;
-                    }
-                    else
+                    } else
                         ungetc(ch, file);
                     /** Parse O-String */
                     str = parseRegularString(file);
@@ -642,8 +628,7 @@ static bool parseEncrypObject(FILE *file, EncData *e) {
                             free(str);
                         }
                         break;
-                    }
-                    else
+                    } else
                         ungetc(ch, file);
                     /** Parse U-string */
                     str = parseRegularString(file);
@@ -688,8 +673,7 @@ static bool parseEncrypObject(FILE *file, EncData *e) {
                 fprintf(stderr, "WARNING: U-String < 48 Bytes: %d\n", u_len);
                 fu = false;
             }
-        }
-        else {
+        } else {
             if (fu && fo) {
                 if (o_len != 32)
                     fprintf(stderr, "WARNING: O-String != 32 Bytes: %d\n", o_len);

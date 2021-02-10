@@ -261,8 +261,7 @@ bool pw_loadState(FILE *file, char **wl) {
                 free(string);
                 return false;
             }
-    }
-    else if (pm == Wordlist) {
+    } else if (pm == Wordlist) {
         if (fscanf(file, "Wordlist(%d): ", &len) < 1)
             return false;
         string = malloc(sizeof(char) * len + 1);
@@ -298,8 +297,7 @@ void pw_saveState(FILE *file) {
         }
         for (i = 0; i < PASSLENGTH - 1; i++)
             fprintf(file, " %d", pwdArray[i]);
-    }
-    else if (pwMethod == Wordlist) {
+    } else if (pwMethod == Wordlist) {
         fprintf(file, "Wordlist(%lu): %s", (size_t) strlen(wordListName), wordListName);
     }
     fprintf(file, "\n");

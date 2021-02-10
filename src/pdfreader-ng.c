@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016 Michael Sasser
+ * Copyright (C) 2016-2021 Michael Sasser
  * Copyright (C) 2006-2014 Henning Norén
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -18,12 +18,14 @@
 
 #include "pdfparser.h"
 #include <stdlib.h>
+#include "version.h"
 
 
 int main(int argc, char **argv) {
     int ret = 0;
     EncData *e;
     if (argc != 2) {
+        printf("pdfreader-ng %s\n\n", VERSION);
         fprintf(stderr, "Usage: %s filename\n", argv[0]);
         exit(1);
     }

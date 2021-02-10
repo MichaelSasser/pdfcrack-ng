@@ -21,7 +21,7 @@
 #include "string.h"
 
 /** Rotate right  **/
-#define ROTR(x, n) (( x >> n ) | ( x << (32 - n)))
+#define ROTR(x, n) (( (x) >> (n) ) | ( x << (32 - n)))
 
 #define Choice(x, y, z) ( z ^ ( x & ( y ^ z )))
 #define Majority(x, y, z) (( x & y ) ^ ( z & ( x ^ y )))
@@ -42,7 +42,8 @@ static void sha256HashBlock(const uint8_t *blk, uint32_t *hash) {
 
     /* 1. Prepare the message schedule */
     for (i = 0; i < 16; ++i)
-        W[i] = ((unsigned) blk[i * 4] << 24) | ((unsigned) blk[i * 4 + 1] << 16) | ((unsigned) blk[i * 4 + 2] << 8) | blk[i * 4 + 3];
+        W[i] = ((unsigned) blk[i * 4] << 24) | ((unsigned) blk[i * 4 + 1] << 16) | ((unsigned) blk[i * 4 + 2] << 8) |
+               blk[i * 4 + 3];
 
     for (; i < 64; ++i)
         W[i] = sigma1(W[i - 2]) + W[i - 7] + sigma0(W[i - 15]) + W[i - 16];
@@ -184,7 +185,7 @@ void sha256(const uint8_t *msg, const int msgLen, uint8_t *hash) {
 }
 
 /** Fast sha256 for msgLen < 56 */
-void sha256f(const uint8_t *msg, const int msgLen, uint8_t *hash) {
+void *sha256f(const uint8_t *msg, const int msgLen, uint8_t *hash) {
     uint8_t blk[64];
     uint32_t H[8];
     int blkLen, i;
@@ -223,4 +224,5 @@ void sha256f(const uint8_t *msg, const int msgLen, uint8_t *hash) {
         hash[i * 4 + 2] = (uint8_t) (H[i] >> 8);
         hash[i * 4 + 3] = (uint8_t) H[i];
     }
+    return NULL;
 }

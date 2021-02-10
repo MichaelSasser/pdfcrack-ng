@@ -1,7 +1,5 @@
 /**
- * Copyright (C) 2016 Michael Sasser
- * Copyright (C) 2006-2015 Henning Norén
- * Copyright (C) 2009 Andreas Meier, Michael Kuhn
+ * Copyright (C) 2021 Michael Sasser
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,5 +16,10 @@
  */
 #pragma once
 
-void runBenchmark(int nrOfThreads, unsigned int numCpuCoresLoc);
+#define VERSION_MAJOR @PROJECT_VERSION_MAJOR@
+#define VERSION_MINOR @PROJECT_VERSION_MINOR@
+#define VERSION_PATCH @PROJECT_VERSION_PATCH@
+#define VERSION_TWEAK @PROJECT_VERSION_TWEAK@
+#define VERSION "@PROJECT_VERSION@"
 
+#define DESCRIPTION "@PROJECT_DESCRIPTION@"
