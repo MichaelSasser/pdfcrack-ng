@@ -36,9 +36,6 @@
 #define SAVEFILE "savedstateperiodic.sav"
 
 
-typedef  sig_t __sighandler_t;        /* BSD compatibility. */
-typedef  sighandler_t __sighandler_t; /* glibc compatibility. */
-
 char crashStateFileName[64];
 char periodicStateFileName[64];
 
@@ -392,7 +389,11 @@ int main(int argc, char **argv) {
 
     if (!quiet) {
         printEncData(e);
+#ifdef __APPLE__
+	act1.sa_handler = (__sig_t) alarmInterrupt;
+#else
         act1.sa_handler = (__sighandler_t) alarmInterrupt;
+#endif
         sigemptyset(&act1.sa_mask);
         act1.sa_flags = 0;
         sigaction(SIGALRM, &act1, 0);
