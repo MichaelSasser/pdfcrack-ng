@@ -19,9 +19,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#define __USE_GNU
 #include <signal.h>
-#undef __USE_GNU
 #include <getopt.h>
 #include <string.h>
 #include <unistd.h>
@@ -34,6 +32,10 @@
 #define SAVEINTERVAL 30 // in seconds (should be a multiple of PRINTINVERVAL)
 #define CRASHFILE "savedstatecrash.sav"
 #define SAVEFILE "savedstateperiodic.sav"
+
+
+typedef __sighandler_t sig_t;        /* BSD compatibility. */
+typedef __sighandler_t sighandler_t; /* glibc compatibility. */
 
 char crashStateFileName[64];
 char periodicStateFileName[64];
@@ -388,7 +390,7 @@ int main(int argc, char **argv) {
 
     if (!quiet) {
         printEncData(e);
-        act1.sa_handler = (sighandler_t) alarmInterrupt;
+        act1.sa_handler = (__sighandler_t) alarmInterrupt;
         sigemptyset(&act1.sa_mask);
         act1.sa_flags = 0;
         sigaction(SIGALRM, &act1, 0);
