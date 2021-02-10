@@ -21,8 +21,16 @@ On brute-forcing with charsets:
 * Maximum length of password to try
 
 ## Installation
-Type 'cmake .', then 'make' (or 'gmake' if you have BSD-make as default) to build the program. You will need to have
-GNU Make and a recent version of GCC installed but there are no external dependencies on libraries.
+You don't need any external libraries. Just run:
+
+```console
+$ mkdir build
+$ cd build
+$ cmake ..  # or 'gmake ..' if you have BSD-make as default
+$ make
+```
+
+You will find the binaries in `build/bin/`.
 
 ## Tricks
 
@@ -31,7 +39,7 @@ so use the correct character encoding in your terminal and/or wordlist when usin
 * To build a package for multi CPU envelopment remove "-march=native" and "-mtune=native" from the "CMakeLists.txt".
 
 ## Credits & License
-* Copyright &copy; 2016 Michael Sasser
+* Copyright &copy; 2016-2021 Michael Sasser
 * Copyright &copy; 2006-2015 Henning Norén
 * Copyright &copy; 2009 Andreas Meier and Michael Kuhn
 * Copyright &copy; 1996-2005 Glyph & Cog, LLC.

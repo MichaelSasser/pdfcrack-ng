@@ -19,7 +19,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#define __USE_GNU
 #include <signal.h>
+#undef __USE_GNU
 #include <getopt.h>
 #include <string.h>
 #include <unistd.h>
@@ -388,7 +390,7 @@ int main(int argc, char **argv) {
 
     if (!quiet) {
         printEncData(e);
-        act1.sa_handler = (__sighandler_t) alarmInterrupt;
+        act1.sa_handler = (sighandler_t) alarmInterrupt;
         sigemptyset(&act1.sa_mask);
         act1.sa_flags = 0;
         sigaction(SIGALRM, &act1, 0);

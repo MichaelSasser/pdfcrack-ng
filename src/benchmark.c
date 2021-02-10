@@ -18,7 +18,9 @@
  */
 
 #include <stdio.h>
+#define __USE_GNU
 #include <signal.h>
+#undef __USE_GNU
 #include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
@@ -324,7 +326,7 @@ static void pdf_40b_bench(int numThreads, const unsigned int numCpuCores) {
 
 void runBenchmark(int numThreads, const unsigned int numCpuCores) {
     struct sigaction act;
-    act.sa_handler = (__sighandler_t) interruptBench;
+    act.sa_handler = (sighandler_t) interruptBench;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
     sigaction(SIGALRM, &act, 0);
