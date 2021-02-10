@@ -390,9 +390,9 @@ int main(int argc, char **argv) {
     if (!quiet) {
         printEncData(e);
 #ifdef __APPLE__
-	act1.sa_handler = (__sig_t) alarmInterrupt;
+	act1.sa_handler = (sig_t) alarmInterrupt;
 #else
-        act1.sa_handler = (__sighandler_t) alarmInterrupt;
+        act1.sa_handler = (sighandler_t) alarmInterrupt;
 #endif
         sigemptyset(&act1.sa_mask);
         act1.sa_flags = 0;
