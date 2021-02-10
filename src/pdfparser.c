@@ -17,9 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#include "pdfparser.h"
 #include <stdlib.h>
 #include <string.h>
+#include "pdfparser.h"
 
 #define BUFFSIZE 256
 

@@ -18,12 +18,14 @@
 
 #include "pdfparser.h"
 #include <stdlib.h>
+#include "version.h"
 
 
 int main(int argc, char **argv) {
     int ret = 0;
     EncData *e;
     if (argc != 2) {
+        printf("pdfreader-ng %s\n\n", VERSION);
         fprintf(stderr, "Usage: %s filename\n", argv[0]);
         exit(1);
     }

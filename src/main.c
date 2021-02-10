@@ -28,14 +28,12 @@
 #include "pdfparser.h"
 #include "pdfcrack-ng.h"
 #include "benchmark.h"
+#include "version.h"
 
 #define PRINTERVAL 1 //Print Progress Interval (seconds)
 #define SAVEINTERVAL 30 // in seconds (should be a multiple of PRINTINVERVAL)
 #define CRASHFILE "savedstatecrash.sav"
 #define SAVEFILE "savedstateperiodic.sav"
-
-#define VERSION_MAJOR 0
-#define VERSION_MINOR 1
 
 char crashStateFileName[64];
 char periodicStateFileName[64];
@@ -152,7 +150,7 @@ int main(int argc, char **argv) {
     const unsigned int numCpuCores = (unsigned int) sysconf(_SC_NPROCESSORS_ONLN);
     unsigned int nrofthreads = numCpuCores / 2;
 
-    printf("pdfcrack-ng v%d.%d - The Next Generation PDF Password Cracker\n\n", VERSION_MAJOR, VERSION_MINOR);
+    printf("pdfcrack-ng %s - %s\n\n", VERSION, DESCRIPTION);
 
     /** Parse arguments */
     while (true) {
@@ -255,7 +253,7 @@ int main(int argc, char **argv) {
                 break;
 
             case 'v':
-                printf("pdfcrack-ng version %d.%d\n", VERSION_MAJOR, VERSION_MINOR);
+                printf("pdfcrack-ng %s\n", VERSION);
                 return 0;
 
             case 'z':
