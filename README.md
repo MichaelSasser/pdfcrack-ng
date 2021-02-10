@@ -26,16 +26,15 @@ When brute-forcing with charsets:
 - Optional maximum password length
 
 ## Installation
+
 You don't need any external libraries. Just run:
 
 ```console
-$ mkdir build
-$ cd build
-$ cmake ..  # or 'gmake ..' if you have BSD-make as default
-$ make
+$ mkdir build && cd build
+$ cmake ..           # or 'gmake ..' if you have BSD-make as default
+$ cmake --build .    # you will find the binaries in "build/bin/"
+$ sudo cmake --install .
 ```
-
-You will find the binaries in `build/bin/`.
 
 ## Tricks
 
