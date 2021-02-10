@@ -33,11 +33,11 @@
 #include "sha256.h"
 #include "pdfcrack-ng.h"
 
-#ifdef __apple__
-    typedef  sig_t __sighandler_t;        /* BSD compatibility. */
-#else
-    typedef  sighandler_t __sighandler_t; /* glibc compatibility. */
-#endif // __apple__
+/* #ifdef __apple__ */
+/*     typedef  sig_t __sighandler_t;        #<{(| BSD compatibility. |)}># */
+/* #else */
+/*     typedef  sighandler_t __sighandler_t; #<{(| glibc compatibility. |)}># */
+/* #endif // __apple__ */
 
 #define COMMON_MD5_SIZE 88
 #define COMMON_SHA256_SIZE 40
@@ -332,7 +332,11 @@ static void pdf_40b_bench(int numThreads, const unsigned int numCpuCores) {
 
 void runBenchmark(int numThreads, const unsigned int numCpuCores) {
     struct sigaction act;
-    act.sa_handler = (__sighandler_t) interruptBench;
+#ifdef __APPLE__
+    act.sa_handler = (sig_t) interruptBench;
+#else
+    act.sa_handler = (sighandler_t) interruptBench;
+#endif
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
     sigaction(SIGALRM, &act, 0);
