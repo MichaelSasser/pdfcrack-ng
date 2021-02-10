@@ -33,8 +33,11 @@
 #include "sha256.h"
 #include "pdfcrack-ng.h"
 
-typedef  sig_t __sighandler_t;        /* BSD compatibility. */
-typedef  sighandler_t __sighandler_t; /* glibc compatibility. */
+#ifdef __apple__
+    typedef  sig_t __sighandler_t;        /* BSD compatibility. */
+#else
+    typedef  sighandler_t __sighandler_t; /* glibc compatibility. */
+#endif // __apple__
 
 #define COMMON_MD5_SIZE 88
 #define COMMON_SHA256_SIZE 40
